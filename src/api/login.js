@@ -2,26 +2,23 @@ import request from '@/utils/request'
 
 export function login(username, password) {
   return request({
-    url: '/user/login',
-    method: 'post',
-    data: {
-      username,
-      password
-    }
+    url        : '/token',
+    method     : 'post',
+    data       : 'username=' + username + '&password=' + password + '&grant_type=password',
+    contentType: 'Application/x-www-form-urlencoded'
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
+    url   : '/api/me/profile',
+    method: 'get'
   })
 }
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url   : '/user/logout',
     method: 'post'
   })
 }

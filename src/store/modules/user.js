@@ -3,10 +3,10 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
-    token: getToken(),
-    name: '',
+    token : getToken(),
+    name  : '',
     avatar: '',
-    roles: []
+    roles : []
   },
 
   mutations: {
@@ -30,9 +30,9 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const data = response.data
-          setToken(data.token)
-          commit('SET_TOKEN', data.token)
+          const token = 'Bearer ' + response.access_token
+          setToken(token)
+          commit('SET_TOKEN', token)
           resolve()
         }).catch(error => {
           reject(error)
@@ -44,14 +44,11 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
+          if (response.roles && response.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', response.roles)
+          } 
+          commit('SET_NAME', response.fullName)
+          commit('SET_AVATAR', response.photo)
           resolve(response)
         }).catch(error => {
           reject(error)

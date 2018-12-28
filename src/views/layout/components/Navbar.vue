@@ -4,17 +4,31 @@
     <breadcrumb />
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+        <img 
+        :src    = "avatar+'?imageView2/1/w/80/h/80'"
+          class = "user-avatar"
+          v-if  = "avatar">
+        <span v-else class="glyphicon glyphicon-user user-avatar defaultPhoto"></span>
         <i class="el-icon-caret-bottom"/>
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
         <router-link class="inlineBlock" to="/">
           <el-dropdown-item>
-            Home
+            主页
           </el-dropdown-item>
         </router-link>
+        <router-link class="inlineBlock" to="/personalCenter/basicData">
+          <el-dropdown-item>
+            基本资料
+          </el-dropdown-item>
+        </router-link>
+
+        <el-dropdown-item>
+          <span style="display:block;" @click="openChangePasswordModel">修改密码</span>
+        </el-dropdown-item>
+
         <el-dropdown-item divided>
-          <span style="display:block;" @click="logout">LogOut</span>
+          <span style="display:block;" @click="logout">注销</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -41,6 +55,12 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('ToggleSideBar')
     },
+    openUserInfoModel() {
+
+    },
+    openChangePasswordModel() {
+
+    },
     logout() {
       this.$store.dispatch('LogOut').then(() => {
         location.reload() // 为了重新实例化vue-router对象 避免bug
@@ -52,43 +72,52 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .navbar {
-  height: 50px;
-  line-height: 50px;
+  height       : 50px;
+  line-height  : 50px;
   border-radius: 0px !important;
   .hamburger-container {
     line-height: 58px;
-    height: 50px;
-    float: left;
-    padding: 0 10px;
+    height     : 50px;
+    float      : left;
+    padding    : 0 10px;
   }
   .screenfull {
     position: absolute;
-    right: 90px;
-    top: 16px;
-    color: red;
+    right   : 90px;
+    top     : 16px;
+    color   : red;
   }
   .avatar-container {
-    height: 50px;
-    display: inline-block;
+    height  : 50px;
+    display : inline-block;
     position: absolute;
-    right: 35px;
+    right   : 35px;
     .avatar-wrapper {
-      cursor: pointer;
-      margin-top: 5px;
-      position: relative;
+      cursor     : pointer;
+      margin-top : 5px;
+      position   : relative;
       line-height: initial;
       .user-avatar {
-        width: 40px;
-        height: 40px;
+        width        : 40px;
+        height       : 40px;
         border-radius: 10px;
       }
       .el-icon-caret-bottom {
-        position: absolute;
-        right: -20px;
-        top: 25px;
+        position : absolute;
+        right    : -20px;
+        top      : 25px;
         font-size: 12px;
       }
     }
+  }
+
+  .defaultPhoto{
+    font-size    : 30px;
+    line-height  : 40px;
+    border       : 1px solid #ccc;
+    border-radius: 10px;
+    padding-left : 4px;
+    color        : #2d4458;
   }
 }
 </style>
