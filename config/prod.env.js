@@ -1,5 +1,5 @@
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
-  BASE_API: '"http://localhost:44308"',
+  BASE_API: '"https://localhost:44310"',
 }
